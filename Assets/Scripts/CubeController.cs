@@ -57,7 +57,6 @@ public class CubeController : MonoBehaviour
 
         if (!IsWaiting)
         {
-            // "A" tuþuna basýldýðýnda
             if (Input.GetKeyDown(KeyCode.A))
             {
                 if (!SondaMi)
@@ -66,8 +65,6 @@ public class CubeController : MonoBehaviour
                     StartCoroutine(Gecis("A"));
                 }
             }
-
-            // "D" tuþuna basýldýðýnda
             if (Input.GetKeyDown(KeyCode.D))
             {
                 if (!SondaMi)
@@ -78,7 +75,6 @@ public class CubeController : MonoBehaviour
             }
         }
         Vector3 mevcutPozisyon = transform.position;
-
         if (mevcutPozisyon.z > 5f)
         {
             mevcutPozisyon.z = 5f;
@@ -93,36 +89,26 @@ public class CubeController : MonoBehaviour
         }
 
         transform.position = mevcutPozisyon;
-
     }
    
     IEnumerator Gecis(string yon)
     {
-        // Hedef pozisyon
         Vector3 hedefPozisyon;
-
-        // "A" tuþuna basýldýysa hedef pozisyonu güncelle
         if (yon == "A")
         {
             hedefPozisyon = new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f);
         }
-        // "D" tuþuna basýldýysa hedef pozisyonu güncelle
         else if (yon == "D")
         {
             hedefPozisyon = new Vector3(transform.position.x, transform.position.y, transform.position.z - 5f);
         }
         else
         {
-            yield break; // Bilinmeyen bir yönse coroutine'yi sonlandýr
+            yield break;
         }
-
-        // Geçiþ süresi
         float gecisSure = 0.2f;
-
-        // Baþlangýç pozisyonu
         Vector3 baslangicPozisyon = transform.position;
 
-        // Zaman sayacý
         float zaman = 0f;
 
         while (zaman < gecisSure)
@@ -130,13 +116,10 @@ public class CubeController : MonoBehaviour
             // Lerp fonksiyonu ile yumuþak bir geçiþ yap
             transform.position = Vector3.Lerp(baslangicPozisyon, hedefPozisyon, zaman / gecisSure);
 
-            // Zamaný artýr
             zaman += Time.deltaTime;
 
             yield return null; // Bir sonraki frame'e geç
         }
-
-        // Bekleme süresini baþlat
         StartCoroutine(BeklemeSuresi());
 
         // Geçiþ tamamlandýktan sonra SondaMi deðerini sýfýrla
@@ -145,10 +128,8 @@ public class CubeController : MonoBehaviour
 
     IEnumerator BeklemeSuresi()
     {
-        // Bekleme süresi
         float beklemeSure = 0.2f;
 
-        // Bekleme süresi boyunca bekle
         IsWaiting = true;
         yield return new WaitForSeconds(beklemeSure);
         IsWaiting = false;
